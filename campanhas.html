@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Click</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .filter-group { display: flex; flex-direction: column; gap: 4px; }
+        .filter-label { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.025em; }
+        .custom-date-input {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0 10px;
+            height: 38px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .custom-date-input:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        .custom-date-input svg { color: var(--text-muted); margin-right: 8px; }
+        .custom-date-input input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 0.8125rem;
+            color: var(--text-main);
+            font-family: inherit;
+            width: 120px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <h2>3Click</h2>
+                </a>
+                <div class="close-sidebar" id="closeSidebar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Visão Geral</a></li>
+                <li class="nav-item"><a href="leads.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Leads</a></li>
+                <li class="nav-item"><a href="campanhas.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg> Campanhas</a></li>
+                <li class="nav-item"><a href="redirecionamento.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Redirecionamento</a></li>
+                <li class="nav-item"><a href="conexao.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><path d="M14 14h3v3h-3z"/></svg> Conexão</a></li>
+                <li class="nav-item"><a href="assistente.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6a6 6 0 0 0-6 6c0 1.5.5 3 1.5 4.5s2.5 3 4.5 4.5c2-1.5 3.5-3 4.5-4.5s1.5-3 1.5-4.5a6 6 0 0 0-6-6z"/></svg> Assistente</a></li>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="perfil.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Meu Perfil</a>
+                <a href="auth/login.html" class="nav-link" style="margin-top: 0.5rem;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sair</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-nav">
+                <div style="display: flex; align-items: center;">
+                    <div class="mobile-toggle" id="mobileToggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                </div>
+                <div class="top-nav-right">
+                    <a href="perfil.html" style="text-decoration: none; color: inherit;">
+                        <div class="user-profile">
+                            <div class="user-avatar">PV</div>
+                            <div class="user-info">
+                                <span>Pato Vilo</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </header>
+
+            <div class="container">
+                <div class="page-header">
+                    <div>
+                        <h1>Gestão de Campanhas</h1>
+                        <p>Analise o desempenho de suas campanhas de marketing.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: flex-end;">
+                        <div class="filter-group">
+                            <label class="filter-label">Período de Análise</label>
+                            <div class="custom-date-input" onclick="this.querySelector('input').showPicker()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                <input type="date" id="campaignDateFilter">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="openModal('newCampaignModal')">+ Nova Campanha</button>
+                    </div>
+                </div>
+
+                <div class="p-stats-grid">
+                    <div class="p-stat-card p-card-white">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Criativos Ativos</span>
+                            <span class="p-stat-value">48</span>
+                            <span class="p-stat-trend">+5</span>
+                            <span class="p-stat-subtext">Nas campanhas Ativas</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Campanhas Ativas</span>
+                            <span class="p-stat-value">12</span>
+                            <span class="p-stat-trend">+2</span>
+                            <span class="p-stat-subtext">Em veiculação</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Total de Cliques</span>
+                            <span class="p-stat-value">8.420</span>
+                            <span class="p-stat-trend">+12%</span>
+                            <span class="p-stat-subtext">Últimos 30 dias</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M8 13V5a2 2 0 0 1 4 0v7"/><path d="M12 11.5v-2a2 2 0 0 1 4 0v2.5"/><path d="M16 12.5v-1.5a2 2 0 0 1 4 0v3.5a6 6 0 0 1-6 6h-2a7 7 0 0 1-7-7v-1.5a2 2 0 0 1 4 0v1.5"/></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Total de Leads</span>
+                            <span class="p-stat-value">1.150</span>
+                            <span class="p-stat-trend">+8%</span>
+                            <span class="p-stat-subtext">Conversão de 13.6%</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-table">
+                    <div class="card-header">
+                        <h3>Desempenho Geral</h3>
+                        <button class="btn btn-outline" onclick="exportTableToCSV('campaignsTable', 'campanhas.csv')">Exportar CSV</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" id="campaignsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID DA CAMPANHA</th>
+                                    <th>CRIATIVO</th>
+                                    <th>ORÇAMENTO</th>
+                                    <th>TOTAL GASTO</th>
+                                    <th>VIEWS</th>
+                                    <th>CLIQUES</th>
+                                    <th>LEADS</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-family: monospace;">#CPN-001</td>
+                                    <td style="font-weight: 500;">Banner Promocional A</td>
+                                    <td>R$ 5.000,00</td>
+                                    <td style="color: var(--danger); font-weight: 600;">R$ 4.250,00</td>
+                                    <td>45.200</td>
+                                    <td>2.150</td>
+                                    <td style="font-weight: 600;">342</td>
+                                    <td><span class="badge badge-green">Ativa</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: monospace;">#CPN-002</td>
+                                    <td style="font-weight: 500;">Vídeo Story Oferta</td>
+                                    <td>R$ 2.500,00</td>
+                                    <td style="color: var(--danger); font-weight: 600;">R$ 1.840,00</td>
+                                    <td>12.800</td>
+                                    <td>840</td>
+                                    <td style="font-weight: 600;">124</td>
+                                    <td><span class="badge badge-yellow">Pausada</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: monospace;">#CPN-003</td>
+                                    <td style="font-weight: 500;">Carrossel Informativo</td>
+                                    <td>R$ 1.200,00</td>
+                                    <td style="color: var(--danger); font-weight: 600;">R$ 1.200,00</td>
+                                    <td>8.500</td>
+                                    <td>410</td>
+                                    <td style="font-weight: 600;">56</td>
+                                    <td><span class="badge badge-red">Finalizada</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nova Campanha -->
+    <div id="newCampaignModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>+ Nova Campanha</h3>
+                <div class="close-modal" onclick="closeModal('newCampaignModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="campaignForm">
+                    <div class="form-group">
+                        <label for="campNome">Nome da Campanha</label>
+                        <input type="text" id="campNome" class="form-control" placeholder="Ex: Lançamento Inverno 2024">
+                    </div>
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label for="campOrcamento">Valor de Orçamento (R$)</label>
+                            <input type="number" id="campOrcamento" class="form-control" placeholder="5000">
+                        </div>
+                        <div>
+                            <label for="campGasto">Valor Total Gasto (R$)</label>
+                            <input type="number" id="campGasto" class="form-control" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="campStatus">Status Inicial</label>
+                        <select id="campStatus" class="form-control">
+                            <option value="Ativa">Ativa</option>
+                            <option value="Pausada">Pausada</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('newCampaignModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="closeModal('newCampaignModal')">Criar Campanha</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="chat-bubble.js" defer></script>
+</body>
+</html>

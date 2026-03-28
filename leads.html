@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Click</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <h2>3Click</h2>
+                </a>
+                <div class="close-sidebar" id="closeSidebar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Visão Geral</a></li>
+                <li class="nav-item"><a href="leads.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Leads</a></li>
+                <li class="nav-item"><a href="campanhas.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg> Campanhas</a></li>
+                <li class="nav-item"><a href="redirecionamento.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Redirecionamento</a></li>
+                <li class="nav-item"><a href="conexao.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><path d="M14 14h3v3h-3z"/></svg> Conexão</a></li>
+                <li class="nav-item"><a href="assistente.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6a6 6 0 0 0-6 6c0 1.5.5 3 1.5 4.5s2.5 3 4.5 4.5c2-1.5 3.5-3 4.5-4.5s1.5-3 1.5-4.5a6 6 0 0 0-6-6z"/></svg> Assistente</a></li>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="perfil.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Meu Perfil</a>
+                <a href="auth/login.html" class="nav-link" style="margin-top: 0.5rem;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sair</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-nav">
+                <div style="display: flex; align-items: center;">
+                    <div class="mobile-toggle" id="mobileToggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                </div>
+                <div class="top-nav-right">
+                    <a href="perfil.html" style="text-decoration: none; color: inherit;">
+                        <div class="user-profile">
+                            <div class="user-avatar">PV</div>
+                            <div class="user-info">
+                                <span>Pato Vilo</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </header>
+
+            <div class="container">
+                <div class="page-header">
+                    <div>
+                        <h1>Gestão de Leads</h1>
+                        <p>Visualize e gerencie todos os potenciais clientes.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('newLeadModal')">+ Novo Lead</button>
+                </div>
+
+                <div class="p-stats-grid">
+                    <div class="p-stat-card p-card-white">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Total de Leads</span>
+                            <span class="p-stat-value">1.284</span>
+                            <span class="p-stat-trend">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                +12%
+                            </span>
+                            <span class="p-stat-subtext">Base total</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Qualificados</span>
+                            <span class="p-stat-value">856</span>
+                            <span class="p-stat-trend">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                +5%
+                            </span>
+                            <span class="p-stat-subtext">Prontos para venda</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Aguardando Contato</span>
+                            <span class="p-stat-value">328</span>
+                            <span class="p-stat-trend">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                +2%
+                            </span>
+                            <span class="p-stat-subtext">Aguardando contato</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Taxa de Conversão</span>
+                            <span class="p-stat-value">24.5%</span>
+                            <span class="p-stat-trend">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                +3%
+                            </span>
+                            <span class="p-stat-subtext">Média mensal</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-table">
+                    <div class="card-header">
+                        <h3>Todos os Leads</h3>
+                        <button class="btn btn-outline">Exportar CSV</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" id="leadsTable">
+                            <thead>
+                                <tr>
+                                    <th>Origem</th>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Número</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-blue">Pressell - Bruno</span></td>
+                                    <td>#LD-8492</td>
+                                    <td style="font-weight: 500;">Ricardo Mendes</td>
+                                    <td>ricardo@email.com</td>
+                                    <td>(11) 98888-7777</td>
+                                    <td><span class="badge badge-yellow">Aguardando Contato</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-blue">Pressell - Viera</span></td>
+                                    <td>#LD-8491</td>
+                                    <td style="font-weight: 500;">Mariana Silva</td>
+                                    <td>mariana@email.com</td>
+                                    <td>(21) 97777-6666</td>
+                                    <td><span class="badge badge-green">Qualificado</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-blue">Pressell - Gabriel</span></td>
+                                    <td>#LD-8490</td>
+                                    <td style="font-weight: 500;">João Pedro</td>
+                                    <td>joao@email.com</td>
+                                    <td>(31) 96666-5555</td>
+                                    <td><span class="badge badge-red">Perdido</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-blue">Pressell - Duarte</span></td>
+                                    <td>#LD-8489</td>
+                                    <td style="font-weight: 500;">Carla Dias</td>
+                                    <td>carla@email.com</td>
+                                    <td>(41) 95555-4444</td>
+                                    <td><span class="badge badge-green">Convertido</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Novo Lead -->
+    <div id="newLeadModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>+ Novo Lead</h3>
+                <div class="close-modal" onclick="closeModal('newLeadModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="leadForm">
+                    <div class="form-group">
+                        <label for="leadOrigem">Origem</label>
+                        <select id="leadOrigem" class="form-control">
+                            <option value="Pressell - Bruno">Pressell - Bruno</option>
+                            <option value="Pressell - Viera">Pressell - Viera</option>
+                            <option value="Pressell - Gabriel">Pressell - Gabriel</option>
+                            <option value="Pressell - Duarte">Pressell - Duarte</option>
+                            <option value="Pressell - Arnaldo">Pressell - Arnaldo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="leadNome">Nome Completo</label>
+                        <input type="text" id="leadNome" class="form-control" placeholder="Ex: Ricardo Mendes">
+                    </div>
+                    <div class="form-group">
+                        <label for="leadEmail">E-mail</label>
+                        <input type="email" id="leadEmail" class="form-control" placeholder="Ex: ricardo@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="leadNumero">Telefone/WhatsApp</label>
+                        <input type="tel" id="leadNumero" class="form-control" placeholder="(11) 99999-9999">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('newLeadModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="closeModal('newLeadModal')">Salvar Lead</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="chat-bubble.js" defer></script>
+</body>
+</html>
