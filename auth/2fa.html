@@ -7,7 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../assets/img/fav-icon.png" type="image/png">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
         body { 
             background: radial-gradient(circle at top right, #FFFFFF 0%, #F3F4F6 100%);
@@ -46,14 +47,13 @@
 <body>
     <div class="auth-container">
         <div class="auth-logo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-            3Click
+            <img src="../assets/img/logo-3click.png" alt="3Click Logo" style="height: 60px;">
         </div>
         <div class="header">
             <h1>Verificação de Segurança</h1>
-            <p>Enviamos um código de 6 dígitos para o seu e-mail.</p>
+            <p>Insira o código enviado para o seu dispositivo</p>
         </div>
-        <form action="../dashboard.html">
+        <form action="../pages/dashboard.html">
             <div class="code-input-container">
                 <input type="text" maxlength="1" pattern="[0-9]" required autofocus>
                 <input type="text" maxlength="1" pattern="[0-9]" required>
@@ -82,6 +82,8 @@
         });
     </script>
     <!-- Chat Bubble Widget -->
-    <script src="../chat-bubble.js" defer></script>
+    <script src="../assets/js/chat-bubble.js" defer></script>
 </body>
 </html>
+
+

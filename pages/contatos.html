@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Click - Gestão de Contatos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="../assets/img/fav-icon.png" type="image/png">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../assets/js/scripts.js" defer></script>
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <img src="../assets/img/logo-3click.png" alt="3Click Logo" style="height: 45px;">
+                </a>
+                <div class="close-sidebar" id="closeSidebar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Visão Geral</a></li>
+                <li class="nav-item"><a href="contatos.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Contatos</a></li>
+                <li class="nav-item"><a href="campanhas.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg> Campanhas</a></li>
+                <li class="nav-item"><a href="redirecionamento.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Redirecionamento</a></li>
+                <li class="nav-item"><a href="conexao.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><path d="M14 14h3v3h-3z"/></svg> Conexão</a></li>
+                <li class="nav-item"><a href="assistente.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6a6 6 0 0 0-6 6c0 1.5.5 3 1.5 4.5s2.5 3 4.5 4.5c2-1.5 3.5-3 4.5-4.5s1.5-3 1.5-4.5a6 6 0 0 0-6-6z"/></svg> Assistente</a></li>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="perfil.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Meu Perfil</a>
+                <a href="../auth/login.html" class="nav-link" style="margin-top: 0.5rem;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sair</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-nav">
+                <div style="display: flex; align-items: center;">
+                    <div class="mobile-toggle" id="mobileToggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                </div>
+                <div class="top-nav-right">
+                    <a href="perfil.html" style="text-decoration: none; color: inherit;">
+                        <div class="user-profile">
+                            <div class="user-avatar">PV</div>
+                            <div class="user-info">
+                                <span>Pato Vilo</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </header>
+
+            <div class="container">
+                <div class="page-header">
+                    <div>
+                        <h1>Gestão de Contatos</h1>
+                        <p>Acompanhe e gerencie todos os seus contatos e leads em um só lugar.</p>
+                    </div>
+                </div>
+
+                <div class="p-stats-grid-5" id="statsGridHome">
+                    <div class="p-stat-card p-card-white animate-fade-up">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Total Contatos</span>
+                            <span class="p-stat-value">2.415</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white animate-fade-up">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Leads Quentes</span>
+                            <span class="p-stat-value">856</span>
+                        </div>
+                        <div class="p-stat-icon-box" style="background-color: #fee2e2; color: #ef4444;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white animate-fade-up">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Leads Mornos</span>
+                            <span class="p-stat-value">642</span>
+                        </div>
+                        <div class="p-stat-icon-box" style="background-color: #fef3c7; color: #f59e0b;">
+                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white animate-fade-up">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Leads Frios</span>
+                            <span class="p-stat-value">917</span>
+                        </div>
+                        <div class="p-stat-icon-box" style="background-color: #e0f2fe; color: #0ea5e9;">
+                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="p-stat-card p-card-white animate-fade-up">
+                        <div class="p-stat-info">
+                            <span class="p-stat-title">Scroll Médio</span>
+                            <span class="p-stat-value">72%</span>
+                        </div>
+                        <div class="p-stat-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-table" style="min-height: 480px;">
+                    <div class="card-header">
+                        <h3>Tabela de Contatos</h3>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-outline" style="font-size: 0.75rem;">Importar</button>
+                            <button class="btn btn-primary" style="font-size: 0.75rem;">+ Novo Contato</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" id="contatosTable">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Campanha</th>
+                                    <th>Último Contato</th>
+                                    <th>Score</th>
+                                    <th>Status</th>
+                                    <th>Contato</th>
+                                    <th style="text-align: right;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-weight: 600;">Ricardo Mendes</td>
+                                    <td><span class="badge badge-blue">Bruno</span></td>
+                                    <td>Hoje, 14:20</td>
+                                    <td>
+                                        <div class="score-badge score-quente">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                                            Quente
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-green">Customer</span></td>
+                                    <td>(11) 98888-7777</td>
+                                    <td class="actions-cell">
+                                        <div class="actions-dropdown">
+                                            <button class="btn btn-primary actions-btn" onclick="toggleDropdown(event, this)">
+                                                Ver Ações <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                            </button>
+                                            <div class="actions-dropdown-content">
+                                                <a href="javascript:void(0)" onclick="openProfileModal('Ricardo Mendes', 'ricardo@email.com', '(11) 98888-7777', 'Campanha Bruno', '85', 'score-quente')">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 12s4-8 11-8 11 8 11 8-4-8-11-8-11 8-11 8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Visualizar Perfil
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="window.exportModalAsPDF()">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Baixar Relatório PDF
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="alert('Editar Contato: Ricardo Mendes')">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar Contato
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="alert('Cadastrando Venda para: Ricardo Mendes')">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> Cadastrar Venda
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="confirm('Excluir Ricardo Mendes?') && alert('Excluído')" class="delete-action">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Excluir Contato
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600;">Mariana Silva</td>
+                                    <td><span class="badge badge-blue">Viera</span></td>
+                                    <td>Ontem, 10:15</td>
+                                    <td>
+                                        <div class="score-badge score-morno">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                                            Morno
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-green">Customer</span></td>
+                                    <td>(21) 97777-6666</td>
+                                    <td class="actions-cell">
+                                        <div class="actions-dropdown">
+                                            <button class="btn btn-primary actions-btn" onclick="toggleDropdown(event, this)">
+                                                Ver Ações <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                            </button>
+                                            <div class="actions-dropdown-content">
+                                                <a href="javascript:void(0)" onclick="openProfileModal('Mariana Silva', 'mariana@email.com', '(21) 97777-6666', 'Campanha Viera', '62', 'score-morno')">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 12s4-8 11-8 11 8 11 8-4-8-11-8-11 8-11 8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Visualizar Perfil
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="window.exportModalAsPDF()">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Baixar Relatório PDF
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="alert('Editar Contato: Mariana Silva')">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar Contato
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="alert('Cadastrando Venda para: Mariana Silva')">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> Cadastrar Venda
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="confirm('Excluir Mariana Silva?') && alert('Excluído')" class="delete-action">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Excluir Contato
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Contact Profile Modal -->
+    <div id="profileModal" class="modal-overlay">
+        <div class="modal-container profile-modal-container">
+            <div class="modal-header">
+                <div>
+                    <span style="font-size: 0.65rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Perfil do Contato</span>
+                    <h3 id="profileTitleName" style="margin-top: 0.15rem;">Ricardo Mendes</h3>
+                </div>
+                <div class="close-modal" onclick="window.closeModal('profileModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+            <div class="modal-body" style="padding: 2.5rem;">
+                <!-- Top Row: Info, Detailed Score, LTV Card -->
+                <div class="profile-header-grid">
+                    <!-- Contact Info -->
+                    <div class="profile-card profile-card-info">
+                        <div class="profile-section-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Informações de Contato
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 1.25rem; flex: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="window.expandAvatar()">
+                                <strong style="font-size: 0.875rem;">Foto de Perfil</strong>
+                                <div class="profile-avatar-large" id="profileAvatar">RM</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8125rem;">
+                                <span style="color: var(--text-muted);">Email:</span>
+                                <strong id="profileEmail">ricardo@email.com</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8125rem;">
+                                <span style="color: var(--text-muted);">Telefone:</span>
+                                <strong id="profilePhone">(11) 98888-7777</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8125rem;">
+                                <span style="color: var(--text-muted);">Localização:</span>
+                                <strong>São Paulo, BR</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Score Card -->
+                    <div class="score-card-detailed pro-card">
+                        <div class="score-card-title">
+                             <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" width="18" height="18"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                             Score do Lead
+                        </div>
+                        <div class="score-circle-container" id="profileScoreValue">85/100</div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <strong style="color: #ef4444; font-size: 1rem;" id="profileScoreLabel">Lead Quente</strong>
+                            <div style="font-size: 0.7rem; color: var(--text-muted);">Classificação automática</div>
+                        </div>
+
+                        <div class="score-points-list" style="flex: 1;">
+                            <div class="score-point-item">
+                                <div class="score-point-label">
+                                    <div class="score-point-dot" style="background: #3b82f6;"></div> E-mails abertos • 1pts
+                                </div>
+                                <div class="score-point-value">12 pts</div>
+                            </div>
+                            <div class="score-point-item">
+                                <div class="score-point-label">
+                                    <div class="score-point-dot" style="background: #f59e0b;"></div> Cliques em links • 3pts
+                                </div>
+                                <div class="score-point-value">18 pts</div>
+                            </div>
+                            <div class="score-point-item">
+                                <div class="score-point-label">
+                                    <div class="score-point-dot" style="background: #ef4444;"></div> Compras • 10pts
+                                </div>
+                                <div class="score-point-value">50 pts</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LTV Total Card -->
+                    <div class="profile-card profile-card-ltv pro-card">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: auto;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; color: #1e40af; font-weight: 700; font-size: 0.9rem;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                LTV Total
+                            </div>
+                            <div class="ltv-total-badge" id="profileLtvTotalLabel">R$ 4.250,20</div>
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <div style="font-size: 0.75rem; color: #60a5fa;">Valor total gerado pelo cliente</div>
+                            <div style="font-size: 1.25rem; font-weight: 700; color: #1e40af; margin-top: 0.5rem;" id="profileLtvDisplaySub">R$ 4.250,20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forma de Pagamento Section -->
+                <div class="profile-section">
+                    <div class="profile-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg> Forma de Pagamento
+                    </div>
+                    <div class="info-block">
+                        Cartão de crédito (Visa •••• 4242)
+                    </div>
+                </div>
+
+                <!-- Campanha de Origem Section -->
+                <div class="profile-section">
+                    <div class="profile-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Campanha de Origem
+                    </div>
+                    <div id="profileCampaignName" class="info-block">
+                        Primeira interação realizada via Campanha Bruno (Google Ads)
+                    </div>
+                </div>
+
+                <!-- Documentos Checklist Section (MOVED UP) -->
+                <div class="profile-section">
+                    <div class="profile-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg> Documentos Checklist
+                    </div>
+                    <div class="docs-grid">
+                        <div class="doc-item">
+                            <div class="doc-info">
+                                <div class="doc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                                <div><div class="doc-name">RG e CPF</div><div class="doc-status status-valid">Validado • 12/01/2024</div></div>
+                            </div>
+                            <button class="btn btn-outline btn-doc" onclick="window.downloadPDF('RG_CPF.pdf')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                        </div>
+                        <div class="doc-item">
+                            <div class="doc-info">
+                                <div class="doc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                                <div><div class="doc-name">Comprovante de Renda</div><div class="doc-status status-valid">Validado • 15/01/2024</div></div>
+                            </div>
+                            <button class="btn btn-outline btn-doc" onclick="window.downloadPDF('Renda.pdf')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                        </div>
+                        <div class="doc-item">
+                            <div class="doc-info">
+                                <div class="doc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                                <div><div class="doc-name">Carteira de Trabalho</div><div class="doc-status status-pending">Aguardando Revisão</div></div>
+                            </div>
+                            <button class="btn btn-outline btn-doc" onclick="window.downloadPDF('Carteira_Trabalho.pdf')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                        </div>
+                        <div class="doc-item">
+                            <div class="doc-info">
+                                <div class="doc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                                <div><div class="doc-name">Comprovante de Endereço</div><div class="doc-status status-valid">Validado • 12/01/2024</div></div>
+                            </div>
+                            <button class="btn btn-outline btn-doc" onclick="window.downloadPDF('Endereço.pdf')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                        </div>
+                        <div class="doc-item">
+                            <div class="doc-info">
+                                <div class="doc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                                <div><div class="doc-name">Certidão de Estado Civil</div><div class="doc-status status-pending">Pendente</div></div>
+                            </div>
+                            <button class="btn btn-outline btn-doc" onclick="window.downloadPDF('Estado_Civil.pdf')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Histórico de Contatos & LTV (CHART & TABLE) -->
+                <div class="profile-section">
+                    <div class="profile-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg> Histórico do Contato
+                    </div>
+                    
+                    <div class="ltv-stats-grid">
+                        <div class="ltv-card-mini">
+                            <span class="ltv-label">Ticket Médio <svg viewBox="0 0 24 24" fill="none" stroke="#203c86" stroke-width="2" width="14" height="14"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg></span>
+                            <h4 id="profileAvgTicket">R$ 850,20</h4>
+                        </div>
+                        <div class="ltv-card-mini">
+                            <span class="ltv-label">Total Gasto <svg viewBox="0 0 24 24" fill="none" stroke="#203c86" stroke-width="2" width="14" height="14"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
+                            <h4 id="profileTotalSpent">R$ 4.251,00</h4>
+                        </div>
+                         <div class="ltv-card-mini">
+                            <span class="ltv-label">Total Pedidos <svg viewBox="0 0 24 24" fill="none" stroke="#203c86" stroke-width="2" width="14" height="14"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg></span>
+                            <h4>5 Unidades</h4>
+                        </div>
+                         <div class="ltv-card-mini">
+                            <span class="ltv-label">Frequência <svg viewBox="0 0 24 24" fill="none" stroke="#203c86" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
+                            <h4>Mensal</h4>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div id="ltvChartContainer" class="chart-box">
+                        <div id="profileLtvChart" style="width: 100%; height: 300px;"></div>
+                    </div>
+
+                    <!-- Detailed History Table -->
+                    <div class="history-table-container">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Método</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>12 Mar 2024</td>
+                                    <td>Consultoria Estratégica</td>
+                                    <td class="val">R$ 1.200,00</td>
+                                    <td>Cartão</td>
+                                    <td><span class="st-con">Concluído</span></td>
+                                </tr>
+                                <tr>
+                                    <td>05 Fev 2024</td>
+                                    <td>Assinatura SaaS Annual</td>
+                                    <td class="val">R$ 950,20</td>
+                                    <td>Pix</td>
+                                    <td><span class="st-con">Concluído</span></td>
+                                </tr>
+                                <tr>
+                                    <td>20 Jan 2024</td>
+                                    <td>Upgrade de Pacote</td>
+                                    <td class="val">R$ 500,00</td>
+                                    <td>Cartão</td>
+                                    <td><span class="st-con">Concluído</span></td>
+                                </tr>
+                                <tr>
+                                    <td>15 Dez 2023</td>
+                                    <td>Implementação Nucleo</td>
+                                    <td class="val">R$ 1.600,00</td>
+                                    <td>Boleto</td>
+                                    <td><span class="st-con">Concluído</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                 <button class="btn btn-outline" onclick="window.closeModal('profileModal')">Fechar Dashboard</button>
+                 <button class="btn btn-primary" onclick="window.exportModalAsPDF()">Gerar Exportação Completa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Expand Overlay -->
+    <div id="imageExpandModal" class="image-expand-overlay" onclick="window.closeAvatar()">
+        <img src="" id="expandedImage" class="image-expand-content" alt="Contact Avatar Expanded">
+    </div>
+
+    <script>
+        // Global access for toggleDropdown
+        window.toggleDropdown = function(event, button) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const container = button.closest('.actions-dropdown');
+            const dropdown = container.querySelector('.actions-dropdown-content');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.actions-dropdown-content').forEach(d => {
+                if (d !== dropdown) d.classList.remove('show');
+            });
+            
+            dropdown.classList.toggle('show');
+        };
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.actions-dropdown')) {
+                document.querySelectorAll('.actions-dropdown-content').forEach(d => {
+                    d.classList.remove('show');
+                });
+            }
+        });
+
+        // Initialize LTV Chart
+        function initLtvChart() {
+            const chartDom = document.getElementById('profileLtvChart');
+            if(!chartDom) return;
+            
+            const myChart = echarts.init(chartDom);
+            const option = {
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true, top: '10%' },
+                xAxis: { type: 'category', data: ['Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai'], axisLine: { lineStyle: { color: '#E5E7EB' } } },
+                yAxis: { type: 'value', axisLine: { show: false }, splitLine: { lineStyle: { type: 'dashed', color: '#F3F4F6' } } },
+                series: [{
+                    data: [1600, 2100, 3050, 4250, 4800, 5100],
+                    type: 'line',
+                    smooth: true,
+                    areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(32, 60, 134, 0.3)' }, { offset: 1, color: 'rgba(32, 60, 134, 0.05)' }]) },
+                    lineStyle: { color: '#203c86', width: 3 },
+                    itemStyle: { color: '#203c86' }
+                }]
+            };
+            myChart.setOption(option);
+            
+            // Handle resize
+            const resizeObserver = new ResizeObserver(() => {
+                myChart.resize();
+            });
+            resizeObserver.observe(chartDom);
+        }
+
+        window.openProfileModal = function(name, email, phone, campaign, scoreValue, scoreClass) {
+            const title = document.getElementById('profileTitleName');
+            const mail = document.getElementById('profileEmail');
+            const tel = document.getElementById('profilePhone');
+            const avatar = document.getElementById('profileAvatar');
+            const camp = document.getElementById('profileCampaignName');
+            const score = document.getElementById('profileScoreValue');
+            const label = document.getElementById('profileScoreLabel');
+            const ltvBadge = document.getElementById('profileLtvTotalLabel');
+
+            if (title) title.innerText = name;
+            if (mail) mail.innerText = email;
+            if (tel) tel.innerText = phone;
+            if (avatar) avatar.innerText = name.split(' ').map(n => n[0]).join('');
+            if (camp) camp.innerText = "Primeira interação realizada via " + campaign + " (Google Ads)";
+            if (score) score.innerText = scoreValue + "/100";
+            if (label) {
+                label.innerText = scoreValue >= 75 ? 'Lead Quente' : (scoreValue >= 50 ? 'Lead Morno' : 'Lead Frio');
+            }
+            if (ltvBadge) {
+                const val = (Math.random() * 5000 + 1000).toFixed(2).replace('.', ',');
+                ltvBadge.innerText = "R$ " + val;
+                if(document.getElementById('profileLtvDisplaySub')) document.getElementById('profileLtvDisplaySub').innerText = "R$ " + val;
+                if(document.getElementById('profileLtvTotalValue')) document.getElementById('profileLtvTotalValue').innerText = "R$ " + val;
+            }
+
+            if (window.openModal) {
+                window.openModal('profileModal');
+            } else {
+                document.getElementById('profileModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Initialize chart after a short delay to ensure modal is visible
+            setTimeout(initLtvChart, 100);
+            
+            // Close the dropdown after action
+            document.querySelectorAll('.actions-dropdown-content').forEach(d => d.classList.remove('show'));
+        };
+
+        window.closeModal = function(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        // Close modal when clicking on overlay
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    window.closeModal(this.id);
+                }
+            });
+        });
+
+        window.exportModalAsPDF = function() {
+            const element = document.querySelector('.profile-modal-container');
+            const opt = {
+                margin:       0.2,
+                filename:     'relatorio-contato.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            const footer = element.querySelector('.modal-footer');
+            const closeBtn = element.querySelector('.close-modal');
+            if(footer) footer.style.display = 'none';
+            if(closeBtn) closeBtn.style.display = 'none';
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                if(footer) footer.style.display = 'flex';
+                if(closeBtn) closeBtn.style.display = 'block';
+            });
+        };
+
+        window.expandAvatar = function() {
+            const avatarText = document.getElementById('profileAvatar').innerText;
+            const expandedImg = document.getElementById('expandedImage');
+            expandedImg.src = `https://ui-avatars.com/api/?name=${avatarText}&background=203c86&color=fff&size=512`;
+            document.getElementById('imageExpandModal').classList.add('active');
+        };
+
+        window.closeAvatar = function() {
+            document.getElementById('imageExpandModal').classList.remove('active');
+        };
+
+        window.downloadPDF = function(filename) {
+            alert('Baixando documento: ' + filename);
+        };
+    </script>
+    <script src="../assets/js/chat-bubble.js" defer></script>
+</body>
+</html>
