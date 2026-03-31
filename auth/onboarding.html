@@ -49,6 +49,7 @@
                 <div class="step-dot active"></div>
                 <div class="step-dot"></div>
                 <div class="step-dot"></div>
+                <div class="step-dot"></div>
             </div>
 
             <!-- Step 1: Welcome -->
@@ -58,8 +59,68 @@
                 <button onclick="nextStep(2)" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1rem; font-weight: 400;">Começar Configuração</button>
             </div>
 
-            <!-- Step 2: Investment -->
+            <!-- Step 2: AI Assistant -->
             <div class="onboarding-step" id="step2">
+                <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem;">Seu Assistente de IA</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Crie a persona da sua Inteligência Artificial e defina as diretrizes básicas de atendimento.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="form-group" style="text-align: left;">
+                        <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Nome da IA</label>
+                        <input type="text" class="form-control" placeholder="Ex: Ana, Atendimento..." style="width: 100%;">
+                    </div>
+                    <div class="form-group" style="text-align: left;">
+                        <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Tom de Voz</label>
+                        <select class="form-control" style="width: 100%;">
+                            <option>Amigável e Descontraído</option>
+                            <option>Profissional e Direto</option>
+                            <option>Consultivo e Técnico</option>
+                            <option>Persuasivo e Vendedor</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Objetivo Principal da Interação</label>
+                    <select class="form-control" style="width: 100%;">
+                        <option>Realizar Triagem e Qualificação de Leads</option>
+                        <option>Agendar Reunião, Visita ou Call</option>
+                        <option>Tirar Dúvidas e Oferecer Suporte Inicial</option>
+                        <option>Fechamento de Venda Rápida</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.75rem; display: block;">Quais dados a IA deve focar em coletar?</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                            <input type="checkbox" checked> E-mail e WhatsApp
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                            <input type="checkbox" checked> Renda / Orçamento Estimado
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                            <input type="checkbox"> Detalhes Financeiros (ex: FGTS)
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                            <input type="checkbox"> Melhor horário para contato humano
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align: left; margin-bottom: 2.5rem;">
+                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Instruções Adicionais (Contexto para a IA)</label>
+                    <textarea class="form-control" rows="3" placeholder="Ex: Aja como um corretor parceiro. Nunca prometa descontos sem autorização. Se o cliente perguntar de preços, mostre as opções de 2 quartos primeiro." style="width: 100%; resize: vertical;"></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: space-between;">
+                    <button onclick="nextStep(1)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
+                    <button onclick="nextStep(3)" class="btn btn-primary" style="padding: 0.8rem 2rem;">Próximo Passo</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Investment -->
+            <div class="onboarding-step" id="step3">
                 <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem;">Qual seu orçamento?</h1>
                 <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Escolha quanto você deseja investir em anúncios para sua primeira campanha.</p>
                 
@@ -92,13 +153,13 @@
                 </div>
 
                 <div style="margin-top: 3rem; display: flex; justify-content: space-between;">
-                    <button onclick="nextStep(1)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
-                    <button id="btnStep2" onclick="nextStep(3)" class="btn btn-primary" style="padding: 0.8rem 2rem;" disabled>Próximo Passo</button>
+                    <button onclick="nextStep(2)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
+                    <button id="btnStep3" onclick="nextStep(4)" class="btn btn-primary" style="padding: 0.8rem 2rem;" disabled>Próximo Passo</button>
                 </div>
             </div>
 
-            <!-- Step 3: Assets -->
-            <div class="onboarding-step" id="step3">
+            <!-- Step 4: Assets -->
+            <div class="onboarding-step" id="step4">
                 <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem;">Materiais da Campanha</h1>
                 <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Suba o seu Book de vendas (PDF) e os criativos (Vídeos ou Fotos) para que nossa IA configure tudo.</p>
                 
@@ -121,7 +182,7 @@
                 </div>
 
                 <div style="margin-top: 3rem; display: flex; justify-content: space-between;">
-                    <button onclick="nextStep(2)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
+                    <button onclick="nextStep(3)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
                     <button onclick="finishOnboarding()" class="btn btn-primary" style="padding: 0.8rem 2rem; font-weight: 400;">Finalizar e Acessar Dashboard</button>
                 </div>
             </div>
@@ -162,7 +223,7 @@
             document.getElementById('totalLabel').innerText = 'R$ ' + amount.toLocaleString('pt-BR');
             document.getElementById('weeklyLabel').innerText = 'R$ ' + (amount / 4).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + ' por semana';
             
-            document.getElementById('btnStep2').disabled = false;
+            document.getElementById('btnStep3').disabled = false;
         }
 
         function updateFileLabel(inputId, labelId) {
