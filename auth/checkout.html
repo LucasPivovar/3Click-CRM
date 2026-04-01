@@ -27,6 +27,55 @@
             }
             .checkout-card { padding: 1.5rem; border-radius: 16px; }
         }
+
+        /* Coupon field */
+        .coupon-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .coupon-row input {
+            flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .coupon-row button {
+            white-space: nowrap;
+            padding: 0 1.25rem;
+        }
+        .coupon-success {
+            font-size: 0.78rem;
+            color: var(--success, #16a34a);
+            font-weight: 600;
+            display: none;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Doc type select */
+        .doc-type-select {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .doc-type-btn {
+            flex: 1;
+            padding: 0.45rem 0;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+            font-family: 'Poppins', sans-serif;
+        }
+        .doc-type-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light, #eff6ff);
+        }
     </style>
 </head>
 <body>
@@ -41,21 +90,30 @@
         <div class="checkout-card animate-fade-up">
             <h2 style="font-size: 1.1rem; font-weight: 400; margin-bottom: 1.5rem;">Dados Pessoais</h2>
             <div style="margin-bottom: 2.5rem;">
-                <div class="form-group">
-                    <label style="font-size: 0.8rem; color: var(--text-muted);">Nome Completo</label>
-                    <input type="text" class="form-control" placeholder="Seu nome completo">
-                </div>
+
+                <!-- Grid 6 linhas × 2 colunas -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="form-group">
-                        <label style="font-size: 0.8rem; color: var(--text-muted);">CPF / CNPJ</label>
-                        <input type="text" class="form-control" placeholder="000.000.000-00">
+
+                    <!-- Linha 1: Nome Completo (full width) -->
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Nome Completo</label>
+                        <input type="text" class="form-control" placeholder="Seu nome completo">
                     </div>
+
+                    <!-- Linha 2: Tipo Documento + Número do Documento -->
                     <div class="form-group">
-                        <label style="font-size: 0.8rem; color: var(--text-muted);">Data de Nascimento</label>
-                        <input type="date" class="form-control">
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Tipo de Documento</label>
+                        <div class="doc-type-select">
+                            <button type="button" class="doc-type-btn active" id="btnCPF" onclick="setDocType('cpf')">CPF</button>
+                            <button type="button" class="doc-type-btn" id="btnCNPJ" onclick="setDocType('cnpj')">CNPJ</button>
+                        </div>
                     </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group" style="align-self: end;">
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Número do Documento</label>
+                        <input type="text" id="docInput" class="form-control" placeholder="000.000.000-00" maxlength="14" oninput="formatDoc(this)">
+                    </div>
+
+                    <!-- Linha 3: CEP + Estado -->
                     <div class="form-group">
                         <label style="font-size: 0.8rem; color: var(--text-muted);">CEP</label>
                         <input type="text" id="cep" class="form-control" placeholder="00000-000" maxlength="9" onblur="buscarCEP(this.value)">
@@ -64,8 +122,8 @@
                         <label style="font-size: 0.8rem; color: var(--text-muted);">Estado</label>
                         <input type="text" id="uf" class="form-control" placeholder="UF" disabled>
                     </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 2fr 1.5fr; gap: 1rem;">
+
+                    <!-- Linha 4: Município + Bairro -->
                     <div class="form-group">
                         <label style="font-size: 0.8rem; color: var(--text-muted);">Município</label>
                         <input type="text" id="localidade" class="form-control" placeholder="Cidade" disabled>
@@ -74,8 +132,8 @@
                         <label style="font-size: 0.8rem; color: var(--text-muted);">Bairro</label>
                         <input type="text" id="bairro" class="form-control" placeholder="Bairro" disabled>
                     </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 1rem;">
+
+                    <!-- Linha 5: Logradouro + Número -->
                     <div class="form-group">
                         <label style="font-size: 0.8rem; color: var(--text-muted);">Logradouro</label>
                         <input type="text" id="logradouro" class="form-control" placeholder="Rua / Avenida" disabled>
@@ -84,10 +142,13 @@
                         <label style="font-size: 0.8rem; color: var(--text-muted);">Número</label>
                         <input type="text" id="numero" class="form-control" placeholder="Nº" disabled>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label style="font-size: 0.8rem; color: var(--text-muted);">Complemento (opcional)</label>
-                    <input type="text" id="complemento" class="form-control" placeholder="Apto, Bloco, etc" disabled>
+
+                    <!-- Linha 6: Complemento (full width) -->
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Complemento (opcional)</label>
+                        <input type="text" id="complemento" class="form-control" placeholder="Apto, Bloco, etc" disabled>
+                    </div>
+
                 </div>
             </div>
 
@@ -107,7 +168,7 @@
 
             <!-- Card Form -->
             <div id="cardForm">
-                <form action="onboarding.html">
+                <form onsubmit="finalizarPagamento(event)">
                     <div class="form-group">
                         <label style="font-size: 0.8rem; color: var(--text-muted);">Número do Cartão</label>
                         <input type="text" class="form-control" placeholder="0000 0000 0000 0000">
@@ -149,59 +210,147 @@
                         <button class="btn btn-outline" type="button" style="padding: 0 1rem;">Copiar</button>
                     </div>
                 </div>
-                <a href="onboarding.html" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 0.9375rem; font-weight: 400; margin-top: 1rem; text-decoration: none; display: block;">Confirmar Pagamento</a>
+                <button onclick="finalizarPagamento()" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 0.9375rem; font-weight: 400; margin-top: 1rem;">Confirmar Pagamento PIX</button>
             </div>
         </div>
 
         <!-- Right: Order Summary -->
         <div class="order-summary animate-fade-up" style="animation-delay: 0.2s; background: white;">
             <h3 style="font-size: 1.1rem; font-weight: 400; margin-bottom: 1.5rem;">Resumo do Pedido</h3>
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; background: white; padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
-                <div style="width: 50px; height: 50px; background: var(--primary-light); color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+
+            <!-- Setup Fee -->
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; background: #f8fafc; padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                <div style="width: 44px; height: 44px; min-width: 44px; background: var(--primary-light); color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
                 </div>
-                <div>
-                    <div style="font-weight: 400; font-size: 0.9rem;">Plano Premium Pro</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted);">Assinatura Mensal CRM</div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; font-size: 0.875rem;">Setup 3Click</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">Configuração inicial da plataforma</div>
                 </div>
+                <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">R$ 5.000,00</div>
+            </div>
+
+            <!-- Monthly Fee -->
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; background: #f8fafc; padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                <div style="width: 44px; height: 44px; min-width: 44px; background: #dcfce7; color: #16a34a; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; font-size: 0.875rem;">Mensalidade 3Click</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">Recorrência mensal da plataforma</div>
+                </div>
+                <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">R$ 1.500,00/mês</div>
             </div>
 
             <div class="price-row">
-                <span>Subtotal</span>
-                <span style="font-weight: 600;">R$ 297,00</span>
+                <span>Setup (pagamento único)</span>
+                <span style="font-weight: 600;">R$ 5.000,00</span>
             </div>
             <div class="price-row">
-                <span>Taxas de processamento</span>
-                <span style="font-weight: 600;">R$ 0,00</span>
+                <span>Mensalidade</span>
+                <span style="font-weight: 600;">R$ 1.500,00</span>
             </div>
-            <div class="price-row" style="color: var(--success); font-weight: 600;">
-                <span>Desconto Boas-vindas</span>
-                <span>- R$ 50,00</span>
+            <div class="price-row" id="discountRow" style="display: none; color: var(--success, #16a34a); font-weight: 600;">
+                <span id="discountLabel">Cupom aplicado</span>
+                <span id="discountValue">-</span>
             </div>
 
             <div class="price-total">
                 <span>Total hoje</span>
-                <span>R$ 247,00</span>
+                <span id="totalFinal">R$ 6.500,00</span>
             </div>
 
-            <div style="margin-top: 2.5rem;">
+            <!-- Coupon Field -->
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed var(--border-color);">
+                <p style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.04em;">Cupom de Desconto</p>
+                <div class="coupon-row">
+                    <input type="text" id="couponInput" class="form-control" placeholder="INSERIR CUPOM" oninput="this.value = this.value.toUpperCase()">
+                    <button class="btn btn-outline" type="button" onclick="aplicarCupom()">Aplicar</button>
+                </div>
+                <p class="coupon-success" id="couponSuccess">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13" style="display:inline;vertical-align:middle;margin-right:3px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Cupom aplicado com sucesso!
+                </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
                 <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
-                    * Sua assinatura será renovada automaticamente a cada 30 dias. Você pode cancelar a qualquer momento nas configurações do perfil.
+                    * A mensalidade será renovada automaticamente a cada 30 dias. Você pode cancelar a qualquer momento nas configurações do perfil.
                 </p>
             </div>
         </div>
     </div>
 
     <script>
+        let docType = 'cpf';
+
+        function setDocType(type) {
+            docType = type;
+            const input = document.getElementById('docInput');
+            document.getElementById('btnCPF').classList.toggle('active', type === 'cpf');
+            document.getElementById('btnCNPJ').classList.toggle('active', type === 'cnpj');
+            input.value = '';
+            input.placeholder = type === 'cpf' ? '000.000.000-00' : '00.000.000/0001-00';
+            input.maxLength = type === 'cpf' ? 14 : 18;
+        }
+
+        function formatDoc(el) {
+            let v = el.value.replace(/\D/g, '');
+            if (docType === 'cpf') {
+                v = v.slice(0, 11);
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            } else {
+                v = v.slice(0, 14);
+                v = v.replace(/(\d{2})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1/$2');
+                v = v.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+            }
+            el.value = v;
+        }
+
+        // Cupons válidos
+        const cupons = {
+            'BEMVINDO': { desconto: 500, label: 'Boas-vindas (-R$ 500)' },
+            'PROMO3CLICK': { desconto: 1000, label: 'Promo 3Click (-R$ 1.000)' },
+            'LAUNCH50': { desconto: 750, label: 'Lançamento (-R$ 750)' }
+        };
+
+        function aplicarCupom() {
+            const code = document.getElementById('couponInput').value.trim().toUpperCase();
+            const successEl = document.getElementById('couponSuccess');
+            const discountRow = document.getElementById('discountRow');
+
+            if (cupons[code]) {
+                const cupom = cupons[code];
+                const total = 6500 - cupom.desconto;
+                document.getElementById('discountLabel').innerText = cupom.label;
+                document.getElementById('discountValue').innerText = '- R$ ' + cupom.desconto.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                document.getElementById('totalFinal').innerText = 'R$ ' + total.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                discountRow.style.display = 'flex';
+                successEl.style.display = 'block';
+            } else {
+                successEl.style.display = 'none';
+                discountRow.style.display = 'none';
+                document.getElementById('totalFinal').innerText = 'R$ 6.500,00';
+                if (code) alert('Cupom inválido ou expirado.');
+            }
+        }
+
+        function finalizarPagamento(event) {
+            if (event) event.preventDefault();
+            // Redireciona para o onboarding após pagamento
+            window.location.href = 'onboarding.html';
+        }
+
         async function buscarCEP(cep) {
             cep = cep.replace(/\D/g, '');
             const fields = document.querySelectorAll('#logradouro, #bairro, #localidade, #uf, #numero, #complemento');
             
             if (cep.length !== 8) {
-                fields.forEach(el => {
-                    el.disabled = true;
-                    el.value = '';
-                });
+                fields.forEach(el => { el.disabled = true; el.value = ''; });
                 return;
             }
             
@@ -214,14 +363,10 @@
                     document.getElementById('bairro').value = data.bairro;
                     document.getElementById('localidade').value = data.localidade;
                     document.getElementById('uf').value = data.uf;
-                    
                     fields.forEach(el => el.disabled = false);
                     document.getElementById('numero').focus();
                 } else {
-                    fields.forEach(el => {
-                        el.disabled = true;
-                        el.value = '';
-                    });
+                    fields.forEach(el => { el.disabled = true; el.value = ''; });
                     alert("CEP não encontrado.");
                 }
             } catch (error) {
@@ -239,26 +384,18 @@
             if (method === 'card') {
                 cardForm.style.display = 'block';
                 pixView.style.display = 'none';
-                
-                // Active State for Card
                 cardTab.style.background = 'white';
                 cardTab.style.color = 'var(--primary)';
                 cardTab.style.boxShadow = activeShadow;
-                
-                // Inactive State for PIX
                 pixTab.style.background = 'transparent';
                 pixTab.style.color = 'var(--text-muted)';
                 pixTab.style.boxShadow = 'none';
             } else {
                 cardForm.style.display = 'none';
                 pixView.style.display = 'block';
-                
-                // Active State for PIX
                 pixTab.style.background = 'white';
                 pixTab.style.color = 'var(--primary)';
                 pixTab.style.boxShadow = activeShadow;
-                
-                // Inactive State for Card
                 cardTab.style.background = 'transparent';
                 cardTab.style.color = 'var(--text-muted)';
                 cardTab.style.boxShadow = 'none';

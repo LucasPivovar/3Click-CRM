@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3Click - Onboarding</title>
+    <title>3Click - Configuração Inicial</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,8 +27,53 @@
             border: 1px solid var(--border-color);
             box-shadow: 0 10px 40px rgba(0,0,0,0.03);
         }
-        .onboarding-step { display: none; animation: fadeIn 0.4s ease-out; }
-        .onboarding-step.active { display: block; }
+        .onboarding-step { display: none; }
+        .onboarding-step.active { display: block; animation: fadeIn 0.35s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 2.5rem;
+        }
+        .step-dot {
+            width: 32px;
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            transition: background 0.3s;
+        }
+        .step-dot.active { background: var(--primary); }
+
+        /* QR Code step */
+        .qr-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .qr-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .qr-card img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+        .qr-card h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .qr-card p { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Entrada toggle */
+        .entrada-extra { display: none; margin-top: 1rem; }
+        .entrada-extra.show { display: block; }
 
         @media (max-width: 640px) {
             body { padding: 2rem 1rem; }
@@ -36,6 +81,7 @@
             .tier-grid { gap: 1rem; }
             .onboarding-step h1 { font-size: 1.5rem !important; }
             .drop-zone { padding: 1.5rem; }
+            .qr-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -44,173 +90,274 @@
         <div style="text-align: center; margin-bottom: 2rem;">
             <img src="../assets/img/logo-3click.png" alt="3Click Logo" style="height: 40px;">
         </div>
-        <div class="onboarding-screen">
-            <div class="step-indicator" id="stepIndicator">
-                <div class="step-dot active"></div>
-                <div class="step-dot"></div>
-                <div class="step-dot"></div>
-                <div class="step-dot"></div>
-            </div>
+        
+        <!-- Step Indicator: 6 dots (steps 1–6) -->
+        <div class="step-indicator" id="stepIndicator">
+            <div class="step-dot active" id="dot1"></div>
+            <div class="step-dot" id="dot2"></div>
+            <div class="step-dot" id="dot3"></div>
+            <div class="step-dot" id="dot4"></div>
+            <div class="step-dot" id="dot5"></div>
+            <div class="step-dot" id="dot6"></div>
+        </div>
 
-            <!-- Step 1: Welcome -->
-            <div class="onboarding-step active" id="step1">
-                <h1 style="font-size: 2rem; font-weight: 400; margin-bottom: 1rem;">Bem-vindo ao 3Click!</h1>
-                <p style="color: var(--text-muted); margin-bottom: 3rem;">Vamos configurar sua primeira campanha em menos de 2 minutos. Tudo pronto para começar?</p>
-                <button onclick="nextStep(2)" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1rem; font-weight: 400;">Começar Configuração</button>
-            </div>
+        <!-- ── STEP 1: Boas-vindas ── -->
+        <div class="onboarding-step active" id="step1" style="text-align: center;">
+            <h1 style="font-size: 2rem; font-weight: 400; margin-bottom: 1rem;">Bem-vindo(a) ao 3Click!</h1>
+            <p style="color: var(--text-muted); margin-bottom: 3rem;">Vamos configurar sua primeira campanha em menos de 2 minutos. Tudo pronto para começar?</p>
+            <button onclick="goTo(2)" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1rem; font-weight: 400;">Começar Configuração</button>
+        </div>
 
-            <!-- Step 2: AI Assistant -->
-            <div class="onboarding-step" id="step2">
-                <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem;">Seu Assistente de IA</h1>
-                <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Crie a persona da sua Inteligência Artificial e defina as diretrizes básicas de atendimento.</p>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                    <div class="form-group" style="text-align: left;">
-                        <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Nome da IA</label>
-                        <input type="text" class="form-control" placeholder="Ex: Ana, Atendimento..." style="width: 100%;">
-                    </div>
-                    <div class="form-group" style="text-align: left;">
-                        <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Tom de Voz</label>
-                        <select class="form-control" style="width: 100%;">
-                            <option>Amigável e Descontraído</option>
-                            <option>Profissional e Direto</option>
-                            <option>Consultivo e Técnico</option>
-                            <option>Persuasivo e Vendedor</option>
-                        </select>
-                    </div>
+        <!-- ── STEP 2: Informações do Empreendimento ── -->
+        <div class="onboarding-step" id="step2">
+            <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 0.75rem; text-align: center;">Dados do Empreendimento</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; text-align: center;">Preencha as informações do seu empreendimento para configurarmos a campanha corretamente.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="form-group" style="text-align: left; grid-column: 1 / -1;">
+                    <label style="font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">Nome do Empreendimento</label>
+                    <input type="text" class="form-control" placeholder="Ex: Residencial Bella Vista" style="width: 100%;">
                 </div>
-
-                <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
-                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Objetivo Principal da Interação</label>
-                    <select class="form-control" style="width: 100%;">
-                        <option>Realizar Triagem e Qualificação de Leads</option>
-                        <option>Agendar Reunião, Visita ou Call</option>
-                        <option>Tirar Dúvidas e Oferecer Suporte Inicial</option>
-                        <option>Fechamento de Venda Rápida</option>
-                    </select>
+                <div class="form-group" style="text-align: left;">
+                    <label style="font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">Valor da Parcela Mínima</label>
+                    <input type="text" class="form-control" id="parcelaMin" placeholder="R$ 0,00" style="width: 100%;" oninput="formatCurrency(this)">
                 </div>
-
-                <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
-                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.75rem; display: block;">Quais dados a IA deve focar em coletar?</label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
-                            <input type="checkbox" checked> E-mail e WhatsApp
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
-                            <input type="checkbox" checked> Renda / Orçamento Estimado
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
-                            <input type="checkbox"> Detalhes Financeiros (ex: FGTS)
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
-                            <input type="checkbox"> Melhor horário para contato humano
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group" style="text-align: left; margin-bottom: 2.5rem;">
-                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Instruções Adicionais (Contexto para a IA)</label>
-                    <textarea class="form-control" rows="3" placeholder="Ex: Aja como um corretor parceiro. Nunca prometa descontos sem autorização. Se o cliente perguntar de preços, mostre as opções de 2 quartos primeiro." style="width: 100%; resize: vertical;"></textarea>
-                </div>
-
-                <div style="display: flex; justify-content: space-between;">
-                    <button onclick="nextStep(1)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
-                    <button onclick="nextStep(3)" class="btn btn-primary" style="padding: 0.8rem 2rem;">Próximo Passo</button>
+                <div class="form-group" style="text-align: left;">
+                    <label style="font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">Renda Mínima Bruta da Família</label>
+                    <input type="text" class="form-control" id="rendaMin" placeholder="R$ 0,00" style="width: 100%;" oninput="formatCurrency(this)">
                 </div>
             </div>
 
-            <!-- Step 3: Investment -->
-            <div class="onboarding-step" id="step3">
-                <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem;">Qual seu orçamento?</h1>
-                <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Escolha quanto você deseja investir em anúncios para sua primeira campanha.</p>
-                
-                <div class="tier-grid">
-                    <div class="tier-card" onclick="selectTier(500, this)">
-                        <span style="font-size: 0.75rem; font-weight: 400; color: var(--text-muted);">ESSENCIAL</span>
-                        <div class="tier-price">R$ 500</div>
-                        <p class="tier-desc">Ideal para validar seu primeiro funil de vendas rápido.</p>
-                    </div>
-                    <div class="tier-card" onclick="selectTier(1500, this)">
-                        <span style="font-size: 0.75rem; font-weight: 400; color: var(--text-muted);">PROFISSIONAL</span>
-                        <div class="tier-price">R$ 1.500</div>
-                        <p class="tier-desc">A melhor escolha para quem já busca escala e volume de leads.</p>
-                    </div>
-                    <div class="tier-card" onclick="selectTier(5000, this)">
-                        <span style="font-size: 0.75rem; font-weight: 400; color: var(--text-muted);">ESCALA TOTAL</span>
-                        <div class="tier-price">R$ 5.000</div>
-                        <p class="tier-desc">Para imobiliárias e corretores que querem dominar o mercado local.</p>
-                    </div>
-                </div>
-
-                <div id="financeSummary" class="investment-summary">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                        <span style="font-weight: 400; color: var(--primary);">Resumo do Investimento</span>
-                        <span class="badge badge-gold">Planejado</span>
-                    </div>
-                    <div style="font-size: 0.85rem; color: var(--text-muted);">
-                        Com <strong id="totalLabel">R$ 0</strong> mensais, você investirá aproximadamente <strong id="weeklyLabel" style="color: var(--primary);">R$ 0 por semana</strong> em anúncios diretos.
-                    </div>
-                </div>
-
-                <div style="margin-top: 3rem; display: flex; justify-content: space-between;">
-                    <button onclick="nextStep(2)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
-                    <button id="btnStep3" onclick="nextStep(4)" class="btn btn-primary" style="padding: 0.8rem 2rem;" disabled>Próximo Passo</button>
+            <div class="form-group" style="text-align: left; margin-bottom: 1rem;">
+                <label style="font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">Valor de Entrada</label>
+                <select class="form-control" style="width: 100%;" onchange="toggleEntrada(this.value)">
+                    <option value="nao">Não é necessário valor de entrada</option>
+                    <option value="sim">Com Entrada</option>
+                </select>
+                <div class="entrada-extra" id="entradaExtra">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem; cursor: pointer;">
+                        <input type="checkbox" id="fgtsCheck"> Pode utilizar FGTS como entrada
+                    </label>
                 </div>
             </div>
 
-            <!-- Step 4: Assets -->
-            <div class="onboarding-step" id="step4">
-                <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem;">Materiais da Campanha</h1>
-                <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Suba o seu Book de vendas (PDF) e os criativos (Vídeos ou Fotos) para que nossa IA configure tudo.</p>
-                
-                <div class="upload-group">
-                    <label style="font-weight: 400; margin-bottom: 0.75rem; display: block;">Book do Empreendimento (PDF)</label>
-                    <div class="drop-zone" onclick="document.getElementById('filePdf').click()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        <div class="drop-zone-text" id="pdfLabel">Clique ou arraste o PDF aqui</div>
-                        <input type="file" id="filePdf" style="display: none;" accept=".pdf" onchange="updateFileLabel('filePdf', 'pdfLabel')">
-                    </div>
-                </div>
-
-                <div class="upload-group">
-                    <label style="font-weight: 400; margin-bottom: 0.75rem; display: block;">Vídeos e Fotos (MP4, JPG, PNG)</label>
-                    <div class="drop-zone" onclick="document.getElementById('fileMedia').click()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                        <div class="drop-zone-text" id="mediaLabel">Clique ou arraste seus arquivos aqui</div>
-                        <input type="file" id="fileMedia" style="display: none;" accept="image/*,video/*" multiple onchange="updateFileLabel('fileMedia', 'mediaLabel')">
-                    </div>
-                </div>
-
-                <div style="margin-top: 3rem; display: flex; justify-content: space-between;">
-                    <button onclick="nextStep(3)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
-                    <button onclick="finishOnboarding()" class="btn btn-primary" style="padding: 0.8rem 2rem; font-weight: 400;">Finalizar e Acessar Dashboard</button>
-                </div>
+            <div class="form-group" style="text-align: left; margin-bottom: 1rem;">
+                <label style="font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">Endereço do Empreendimento</label>
+                <input type="text" class="form-control" placeholder="Rua, número, bairro, cidade — UF" style="width: 100%;">
             </div>
 
-            <!-- Loader Screen (Final) -->
-            <div class="onboarding-step" id="stepFinal">
-                <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1.5rem;">Configurando seu Sistema...</h1>
-                <div style="background: #f1f5f9; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem;">
-                    <div id="progressBar" style="width: 0%; height: 100%; background: var(--primary); transition: width 3s linear;"></div>
-                </div>
-                <p style="color: var(--text-muted);">Nossa IA está analisando seus materiais e configurando o pixel de conversão. Quase lá!</p>
+            <div class="form-group" style="text-align: left; margin-bottom: 1rem;">
+                <label style="font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">Referências</label>
+                <textarea class="form-control" rows="2" placeholder="Ex: Próximo ao Shopping X, a 500m da Av. Paulista..." style="width: 100%; resize: vertical;"></textarea>
+            </div>
+
+            <div class="form-group" style="text-align: left; margin-bottom: 2rem;">
+                <label style="font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">Diferenciais do Empreendimento</label>
+                <textarea class="form-control" rows="2" placeholder="Ex: Piscina, academia, playground, lazer completo, 2 vagas..." style="width: 100%; resize: vertical;"></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: space-between;">
+                <button onclick="goTo(1)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
+                <button onclick="goTo(3)" class="btn btn-primary" style="padding: 0.8rem 2rem;">Próximo Passo</button>
             </div>
         </div>
+
+        <!-- ── STEP 3: Orçamento ── -->
+        <div class="onboarding-step" id="step3">
+            <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem; text-align: center;">Vamos definir seu orçamento?</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2.5rem; text-align: center;">Escolha quanto você deseja investir em anúncios em seu primeiro empreendimento conosco.</p>
+            
+            <div class="tier-grid">
+                <div class="tier-card" onclick="selectTier(500, this)">
+                    <span style="font-size: 0.75rem; font-weight: 400; color: var(--text-muted);">ESSENCIAL</span>
+                    <div class="tier-price">R$ 500</div>
+                    <p class="tier-desc">Ideal para validar seu primeiro funil de vendas rápido.</p>
+                </div>
+                <div class="tier-card" onclick="selectTier(1500, this)">
+                    <span style="font-size: 0.75rem; font-weight: 400; color: var(--text-muted);">PROFISSIONAL</span>
+                    <div class="tier-price">R$ 1.500</div>
+                    <p class="tier-desc">A melhor escolha para quem já busca escala e volume de leads.</p>
+                </div>
+                <div class="tier-card" onclick="selectTier(5000, this)">
+                    <span style="font-size: 0.75rem; font-weight: 400; color: var(--text-muted);">ESCALA TOTAL</span>
+                    <div class="tier-price">R$ 5.000</div>
+                    <p class="tier-desc">Para imobiliárias e corretores que querem dominar o mercado local.</p>
+                </div>
+            </div>
+
+            <div id="financeSummary" class="investment-summary" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-weight: 400; color: var(--primary);">Resumo do Investimento</span>
+                    <span class="badge badge-gold">Planejado</span>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">
+                    Com <strong id="totalLabel">R$ 0</strong> mensais, você investirá aproximadamente <strong id="weeklyLabel" style="color: var(--primary);">R$ 0 por semana</strong> em anúncios diretos.
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; display: flex; justify-content: space-between;">
+                <button onclick="goTo(2)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
+                <button id="btnStep3" onclick="goTo(4)" class="btn btn-primary" style="padding: 0.8rem 2rem;" disabled>Próximo Passo</button>
+            </div>
+        </div>
+
+        <!-- ── STEP 4: Materiais da Campanha ── -->
+        <div class="onboarding-step" id="step4">
+            <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem; text-align: center;">Materiais da Campanha</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2.5rem; text-align: center;">Suba o seu Book (PDF) e fotos e vídeo para que nossa IA configure tudo.</p>
+            
+            <div class="upload-group">
+                <label style="font-weight: 400; margin-bottom: 0.75rem; display: block;">Book do Empreendimento (PDF)</label>
+                <div class="drop-zone" onclick="document.getElementById('filePdf').click()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <div class="drop-zone-text" id="pdfLabel">Clique ou arraste o PDF aqui</div>
+                    <input type="file" id="filePdf" style="display: none;" accept=".pdf" onchange="updateFileLabel('filePdf', 'pdfLabel')">
+                </div>
+            </div>
+
+            <div class="upload-group">
+                <label style="font-weight: 400; margin-bottom: 0.75rem; display: block;">Vídeos e Fotos (MP4, JPG, PNG)</label>
+                <div class="drop-zone" onclick="document.getElementById('fileMedia').click()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    <div class="drop-zone-text" id="mediaLabel">Clique ou arraste seus arquivos aqui</div>
+                    <input type="file" id="fileMedia" style="display: none;" accept="image/*,video/*" multiple onchange="updateFileLabel('fileMedia', 'mediaLabel')">
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; display: flex; justify-content: space-between;">
+                <button onclick="goTo(3)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
+                <button onclick="goTo(5)" class="btn btn-primary" style="padding: 0.8rem 2rem; font-weight: 400;">Próximo Passo</button>
+            </div>
+        </div>
+
+        <!-- ── STEP 5: Assistente de IA ── -->
+        <div class="onboarding-step" id="step5">
+            <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem; text-align: center;">Seu Assistente de IA</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2.5rem; text-align: center;">Crie a persona da sua Inteligência Artificial e defina as diretrizes básicas de atendimento.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div class="form-group" style="text-align: left;">
+                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Nome da IA</label>
+                    <input type="text" class="form-control" placeholder="Ex: Ana, Atendimento..." style="width: 100%;">
+                </div>
+                <div class="form-group" style="text-align: left;">
+                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Tom de Voz</label>
+                    <select class="form-control" style="width: 100%;">
+                        <option>Amigável e Descontraído</option>
+                        <option>Profissional e Direto</option>
+                        <option>Consultivo e Técnico</option>
+                        <option>Persuasivo e Vendedor</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+                <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Objetivo Principal da Interação</label>
+                <select class="form-control" style="width: 100%;">
+                    <option>Realizar Triagem e Qualificação de Leads</option>
+                    <option>Agendar Reunião, Visita ou Call</option>
+                    <option>Tirar Dúvidas e Oferecer Suporte Inicial</option>
+                    <option>Fechamento de Venda Rápida</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+                <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.75rem; display: block;">Quais dados a IA deve focar em coletar?</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                        <input type="checkbox" checked> E-mail e WhatsApp
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                        <input type="checkbox" checked> Renda / Orçamento Estimado
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                        <input type="checkbox"> Detalhes Financeiros (ex: FGTS)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
+                        <input type="checkbox"> Melhor horário para contato humano
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group" style="text-align: left; margin-bottom: 2.5rem;">
+                <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 500; margin-bottom: 0.5rem; display: block;">Instruções Adicionais (Contexto para a IA)</label>
+                <textarea class="form-control" rows="3" placeholder="Ex: Aja como um corretor parceiro. Nunca prometa descontos sem autorização. Se o cliente perguntar de preços, mostre as opções de 2 quartos primeiro." style="width: 100%; resize: vertical;"></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: space-between;">
+                <button onclick="goTo(4)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
+                <button onclick="goTo(6)" class="btn btn-primary" style="padding: 0.8rem 2rem;">Próximo Passo</button>
+            </div>
+        </div>
+
+        <!-- ── STEP 6: QR Codes ── -->
+        <div class="onboarding-step" id="step6">
+            <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 0.75rem; text-align: center;">Conecte seus WhatsApps</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2.5rem; text-align: center;">Escaneie os QR Codes com os respectivos aparelhos para ativar o atendimento automático.</p>
+
+            <div class="qr-grid">
+                <div class="qr-card">
+                    <img src="../assets/img/qr_code.png" alt="QR Code Assistente IA">
+                    <h4>Assistente de IA</h4>
+                    <p>Escaneie com o WhatsApp que será usado pela IA para atendimento automático.</p>
+                </div>
+                <div class="qr-card">
+                    <img src="../assets/img/qr_code.png" alt="QR Code Corretor">
+                    <h4>WhatsApp do Corretor</h4>
+                    <p>Escaneie com o WhatsApp pessoal do corretor responsável pelos leads qualificados.</p>
+                </div>
+            </div>
+
+            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 2.5rem; display: flex; align-items: flex-start; gap: 0.75rem;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" width="20" height="20" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <p style="font-size: 0.8rem; color: #92400e; margin: 0; line-height: 1.6;">Mantenha os WhatsApps conectados na mesma rede Wi-Fi. Os QR Codes expiram após 60 segundos — se necessário, atualize a página.</p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between;">
+                <button onclick="goTo(5)" class="btn btn-outline" style="padding: 0.8rem 2rem;">Voltar</button>
+                <button onclick="finishOnboarding()" class="btn btn-primary" style="padding: 0.8rem 2rem; font-weight: 400;">Finalizar e Acessar Dashboard</button>
+            </div>
+        </div>
+
+        <!-- ── STEP FINAL: Loader ── -->
+        <div class="onboarding-step" id="stepFinal">
+            <div style="text-align: center; padding: 1rem 0;">
+                <div class="spin-loader"></div>
+                <h1 style="font-size: 1.75rem; font-weight: 400; margin-bottom: 1.5rem; text-align: center;">Quase lá...</h1>
+                <div style="background: #f1f5f9; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem;">
+                    <div id="progressBar" style="width: 0%; height: 100%; background: var(--primary); transition: width 3s linear; border-radius: 4px;"></div>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; text-align: center;">Nosso assistente está analisando seus materiais e informações fornecidas e já está configurando o fluxo de conversão. Quase lá!</p>
+            </div>
+        </div>
+
     </div>
 
     <script>
         let currentStep = 1;
+        const TOTAL_STEPS = 6;
 
-        function nextStep(step) {
+        function goTo(step) {
+            // Hide all steps
             document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step' + step).classList.add('active');
-            
-            const dots = document.querySelectorAll('.step-dot');
-            dots.forEach((dot, idx) => {
-                if (idx < step) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
-            currentStep = step;
+
+            const targetId = 'step' + step;
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.classList.add('active');
+                currentStep = step;
+            }
+
+            // Update dots
+            for (let i = 1; i <= TOTAL_STEPS; i++) {
+                const dot = document.getElementById('dot' + i);
+                if (dot) {
+                    dot.classList.toggle('active', i <= step);
+                }
+            }
+
+            // Scroll to top of card
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function selectTier(amount, element) {
@@ -224,6 +371,22 @@
             document.getElementById('weeklyLabel').innerText = 'R$ ' + (amount / 4).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + ' por semana';
             
             document.getElementById('btnStep3').disabled = false;
+        }
+
+        function toggleEntrada(value) {
+            const extra = document.getElementById('entradaExtra');
+            if (value === 'sim') {
+                extra.classList.add('show');
+            } else {
+                extra.classList.remove('show');
+                document.getElementById('fgtsCheck').checked = false;
+            }
+        }
+
+        function formatCurrency(el) {
+            let v = el.value.replace(/\D/g, '');
+            v = (parseInt(v, 10) / 100).toFixed(2);
+            el.value = 'R$ ' + parseFloat(v).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         }
 
         function updateFileLabel(inputId, labelId) {
@@ -241,13 +404,11 @@
             document.getElementById('stepFinal').classList.add('active');
             
             const progress = document.getElementById('progressBar');
-            setTimeout(() => {
-                progress.style.width = '100%';
-            }, 100);
+            setTimeout(() => { progress.style.width = '100%'; }, 100);
 
             setTimeout(() => {
                 window.location.href = '../pages/dashboard.html';
-            }, 3500);
+            }, 3800);
         }
     </script>
 </body>
